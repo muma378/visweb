@@ -1,0 +1,10 @@
+apiVersion: 1
+
+datasources:
+  - name: VisWeb SQLite
+    type: frser-sqlite-datasource
+    access: proxy
+    url: ''
+    database: /app/data/visweb.db
+    isDefault: true
+    editable: true

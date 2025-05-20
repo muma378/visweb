@@ -8,14 +8,35 @@ import sys
 import os
 from datetime import datetime, timedelta
 import random
+import time
 
 # Add parent directory to path to import app modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app.db.database import SessionLocal
+from app.db.database import SessionLocal, engine, Base
 from app.models.models import User, MetricType, HealthMetric, ExerciseType, ExerciseRecord
 
+# Wait for database to be ready (useful in Docker environment)
+def wait_for_db(max_retries=10, retry_interval=2):
+    for i in range(max_retries):
+        try:
+            db = SessionLocal()
+            db.execute("SELECT 1")
+            db.close()
+            return True
+        except Exception as e:
+            print(f"Database not ready yet (attempt {i+1}/{max_retries}): {e}")
+            time.sleep(retry_interval)
+    
+    raise Exception("Could not connect to database after multiple attempts")
+
 def init_db():
+    # Ensure tables are created
+    Base.metadata.create_all(bind=engine)
+    
+    # Wait for database to be accessible
+    wait_for_db()
+    
     db = SessionLocal()
     
     try:

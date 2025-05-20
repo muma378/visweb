@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  visweb:
+    build: .
+    container_name: visweb-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=sqlite:////app/data/visweb.db
+      - GRAFANA_URL=http://grafana:3000
+    networks:
+      - visweb-network
+
+  init-db:
+    build: .
+    container_name: visweb-init-db
+    command: python scripts/init_db.py
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - visweb
+    networks:
+      - visweb-network
+    restart: "no"
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: visweb-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./dashboards:/etc/grafana/provisioning/dashboards/custom
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    restart: unless-stopped
+    depends_on:
+      - visweb
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=frser-sqlite-datasource
+    networks:
+      - visweb-network
+
+volumes:
+  grafana-storage:
+
+networks:
+  visweb-network:
+    driver: bridge

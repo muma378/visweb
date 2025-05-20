@@ -65,9 +65,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) as time, value\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'weight'\nORDER BY recorded_at",
+          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) AS time,value\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'weight'\nORDER BY recorded_at",
           "queryType": "table",
-          "rawQueryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) as time, value\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'weight'\nORDER BY recorded_at",
+          "rawQueryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) AS time,value\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'weight'\nORDER BY recorded_at",
           "refId": "A",
           "timeColumn": "time"
         }
@@ -160,9 +160,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) as time, value AS steps\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'steps'\nORDER BY recorded_at",
+          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) AS time,value AS steps\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'steps'\nORDER BY recorded_at",
           "queryType": "table",
-          "rawQueryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) as time, value AS steps\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'steps'\nORDER BY recorded_at",
+          "rawQueryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) AS time,value AS steps\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'steps'\nORDER BY recorded_at",
           "refId": "A",
           "timeColumn": "time"
         }
@@ -255,9 +255,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) as time, value\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'sleep'\nORDER BY recorded_at",
+          "queryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) AS time,value\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'sleep'\nORDER BY recorded_at",
           "queryType": "table",
-          "rawQueryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) as time, value\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'sleep'\nORDER BY recorded_at",
+          "rawQueryText": "SELECT strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(recorded_at, 1, 19)) AS time,value\nFROM health_metrics\nJOIN metric_types ON health_metrics.metric_type_id = metric_types.id\nWHERE user_id = 1 AND metric_types.name = 'sleep'\nORDER BY recorded_at",
           "refId": "A",
           "timeColumn": "time"
         }
@@ -341,9 +341,9 @@
       "pluginVersion": "7.0.3",
       "targets": [
         {
-          "queryText": "SELECT \n  strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(exercise_records.recorded_at, 1, 19)) AS time, \n  exercise_types.name AS Exercise,\n  exercise_records.duration / 60 AS Duration_Minutes,\n  exercise_records.distance AS Distance_Meters,\n  exercise_records.calories AS Calories\nFROM exercise_records\nJOIN exercise_types ON exercise_records.exercise_type_id = exercise_types.id\nWHERE user_id = 1\nORDER BY recorded_at DESC\nLIMIT 10",
+          "queryText": "SELECT \n  strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(exercise_records.recorded_at, 1, 19)) AS time,\n  exercise_types.name AS Exercise,\n  exercise_records.duration / 60 AS Duration_Minutes,\n  exercise_records.distance AS Distance_Meters,\n  exercise_records.calories AS Calories\nFROM exercise_records\nJOIN exercise_types ON exercise_records.exercise_type_id = exercise_types.id\nWHERE user_id = 1\nORDER BY recorded_at DESC\nLIMIT 10",
           "queryType": "table",
-          "rawQueryText": "SELECT \n  strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(exercise_records.recorded_at, 1, 19)) AS time, \n  exercise_types.name AS Exercise,\n  exercise_records.duration / 60 AS Duration_Minutes,\n  exercise_records.distance AS Distance_Meters,\n  exercise_records.calories AS Calories\nFROM exercise_records\nJOIN exercise_types ON exercise_records.exercise_type_id = exercise_types.id\nWHERE user_id = 1\nORDER BY recorded_at DESC\nLIMIT 10",
+          "rawQueryText": "SELECT \n  strftime('%Y-%m-%dT%H:%M:%SZ', SUBSTR(exercise_records.recorded_at, 1, 19)) AS time,\n  exercise_types.name AS Exercise,\n  exercise_records.duration / 60 AS Duration_Minutes,\n  exercise_records.distance AS Distance_Meters,\n  exercise_records.calories AS Calories\nFROM exercise_records\nJOIN exercise_types ON exercise_records.exercise_type_id = exercise_types.id\nWHERE user_id = 1\nORDER BY recorded_at DESC\nLIMIT 10",
           "refId": "A",
           "timeColumn": "time"
         }
