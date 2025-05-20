@@ -13,6 +13,7 @@ import time
 # Add parent directory to path to import app modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from sqlalchemy import text
 from app.db.database import SessionLocal, engine, Base
 from app.models.models import User, MetricType, HealthMetric, ExerciseType, ExerciseRecord
 
@@ -21,7 +22,7 @@ def wait_for_db(max_retries=10, retry_interval=2):
     for i in range(max_retries):
         try:
             db = SessionLocal()
-            db.execute("SELECT 1")
+            db.execute(text("SELECT 1"))
             db.close()
             return True
         except Exception as e:
