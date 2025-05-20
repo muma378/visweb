@@ -4,23 +4,29 @@ services:
   visweb:
     build: .
     container_name: visweb-api
-    ports:
-      - "8000:8000"
+    # 不再直接暴露给外部，而是通过nginx访问
+    expose:
+      - "8000"
     volumes:
-      - ./data:/app/data
+      - visweb-data:/app/data
     restart: unless-stopped
     environment:
       - DATABASE_URL=sqlite:////app/data/visweb.db
       - GRAFANA_URL=http://grafana:3000
     networks:
       - visweb-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   init-db:
     build: .
     container_name: visweb-init-db
     command: python scripts/init_db.py
     volumes:
-      - ./data:/app/data
+      - visweb-data:/app/data
     depends_on:
       - visweb
     networks:
@@ -30,25 +36,60 @@ services:
   grafana:
     image: grafana/grafana-oss:latest
     container_name: visweb-grafana
-    ports:
-      - "3000:3000"
+    # 不再直接暴露给外部，而是通过nginx访问
+    expose:
+      - "3000"
     volumes:
       - grafana-storage:/var/lib/grafana
+      - visweb-data:/app/data
       - ./dashboards:/etc/grafana/provisioning/dashboards/custom
       - ./grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
     depends_on:
       - visweb
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-SecurePassword123!}
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_INSTALL_PLUGINS=frser-sqlite-datasource
+      - GF_SERVER_ROOT_URL=https://${DOMAIN_NAME:-example.com}/grafana/
+      - GF_SERVER_DOMAIN=${DOMAIN_NAME:-example.com}
+      - GF_SECURITY_COOKIE_SECURE=true
+      - GF_SECURITY_COOKIE_SAMESITE=lax
     networks:
       - visweb-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+  
+  nginx:
+    image: nginx:stable
+    container_name: visweb-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - nginx-logs:/var/log/nginx
+    depends_on:
+      - visweb
+      - grafana
+    restart: unless-stopped
+    networks:
+      - visweb-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   grafana-storage:
+  visweb-data:
+  nginx-logs:
 
 networks:
   visweb-network:
